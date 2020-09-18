@@ -147,6 +147,123 @@ const data_test = [
     intro: "",
     providerID: "432934",
     type: "chiếc"
+  },
+  {
+    id: "1230123",
+    name: "Tivi Sony 32inch",
+    photos: ["https://"],
+    price: 40000000,
+    intro: "",
+    providerID: "432934",
+    type: "chiếc"
+  },
+  {
+    id: "1230123",
+    name: "Tivi Sony 32inch",
+    photos: ["https://"],
+    price: 40000000,
+    intro: "",
+    providerID: "432934",
+    type: "chiếc"
+  },
+  {
+    id: "1230123",
+    name: "Tivi Sony 32inch",
+    photos: ["https://"],
+    price: 40000000,
+    intro: "",
+    providerID: "432934",
+    type: "chiếc"
+  },
+  {
+    id: "1230123",
+    name: "Tivi Sony 32inch",
+    photos: ["https://"],
+    price: 40000000,
+    intro: "",
+    providerID: "432934",
+    type: "chiếc"
+  },
+  {
+    id: "1230123",
+    name: "Tivi Sony 32inch",
+    photos: ["https://"],
+    price: 40000000,
+    intro: "",
+    providerID: "432934",
+    type: "chiếc"
+  },
+  {
+    id: "1230123",
+    name: "Tivi Sony 32inch",
+    photos: ["https://"],
+    price: 40000000,
+    intro: "",
+    providerID: "432934",
+    type: "chiếc"
+  },
+  {
+    id: "1230123",
+    name: "Tivi Sony 32inch",
+    photos: ["https://"],
+    price: 40000000,
+    intro: "",
+    providerID: "432934",
+    type: "chiếc"
+  },
+  {
+    id: "1230123",
+    name: "Tivi Sony 32inch",
+    photos: ["https://"],
+    price: 40000000,
+    intro: "",
+    providerID: "432934",
+    type: "chiếc"
+  },
+  {
+    id: "1230123",
+    name: "Tivi Sony 32inch",
+    photos: ["https://"],
+    price: 40000000,
+    intro: "",
+    providerID: "432934",
+    type: "chiếc"
+  },
+  {
+    id: "1230123",
+    name: "Tivi Sony 32inch",
+    photos: ["https://"],
+    price: 40000000,
+    intro: "",
+    providerID: "432934",
+    type: "chiếc"
+  },
+  {
+    id: "1230123",
+    name: "Tivi Sony 32inch",
+    photos: ["https://"],
+    price: 40000000,
+    intro: "",
+    providerID: "432934",
+    type: "chiếc"
+  },
+  {
+    id: "1230123",
+    name: "Tivi Sony 32inch",
+    photos: ["https://"],
+    price: 40000000,
+    intro: "",
+    providerID: "432934",
+    type: "chiếc"
+  },
+  {
+    id: "1230123",
+    name: "Tivi Sony 32inch",
+    photos: ["https://"],
+    price: 40000000,
+    intro: "",
+    providerID: "432934",
+    type: "chiếc"
   }
 ];
 
@@ -155,7 +272,7 @@ const colFlex = [100, 125, 300, 100, 200, 100, 100];
 export class AdminPage extends React.Component {
   render() {
     return (
-      <div style={{ flex: 1 }}>
+      <div style={{ flex: 1, overflow: "hidden" }}>
         <div
           className="row h-a-between a-center"
           style={{ height: 40, backgroundColor: "black", color: "white" }}

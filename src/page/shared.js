@@ -31,7 +31,7 @@ export class UITable extends React.Component {
           ))}
         </div>
 
-        <div>
+        <div style={{ overflow: "auto", height: 500 }}>
           {this.props.data.map((item, index) => (
             <div
               className="item-table cursor "
