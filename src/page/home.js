@@ -19,7 +19,7 @@ export class ItemProduct extends React.Component {
         style={{ width: 260 }}
         onClick={this.props.onClick}
       >
-         
+
         <div style={{ margin: 0 }}>
           <img style={{ height: 275, margin: 20 }} src={this.props.img} />
           <div style={{ margin: "8px 20px" }}>
@@ -145,12 +145,12 @@ class HeaderHome extends React.Component {
 }
 
 export default class HomePage extends React.Component {
-  componentDidMount() {}
+  componentDidMount() { }
 
   render() {
     return (
       <div style={{ backgroundColor: "rgb(239, 239, 239)" }}>
-        <BannerHome />
+        <BannerHome onClick={() => this.props.history.push('/seller/login')} />
         <HeaderHome history={this.props.history} />
 
         <div style={{ margin: "20px 30px 20px 30px" }}>

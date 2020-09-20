@@ -8,7 +8,7 @@ import RegisterPage from "./page/register";
 import ProfilePage from "./page/profile";
 import DetailPage from "./page/detail";
 import PaymentPage from "./page/payment";
-import { AdminPageLogin, AdminPage } from "./page/admin";
+import { AdminLoginPage, AdminPage } from "./page/admin";
 
 // server 103.153.73.118
 export default function App() {
@@ -21,8 +21,11 @@ export default function App() {
       <Route path="/detail/:id?" component={DetailPage} />
       <Route path="/cart" component={PaymentPage} />
 
-      <Route path="/admin/login" component={AdminPageLogin} />
+      <Route path="/admin/login" component={AdminLoginPage} />
       <Route path="/admin" component={AdminPage} />
+
+      <Route path="/seller-login" component={AdminLoginPage} />
+      <Route path="/seller" component={AdminPage} />
     </Router>
   );
 }

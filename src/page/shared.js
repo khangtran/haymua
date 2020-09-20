@@ -9,6 +9,16 @@ import {
   TextField
 } from "@material-ui/core";
 
+
+class UIText extends React.Component {
+  render() {
+    return <div>
+      <span>{this.props.label}</span>
+      <input {...this.props} />
+    </div>
+  }
+}
+
 export class UITable extends React.Component {
   render() {
     return (
@@ -23,8 +33,8 @@ export class UITable extends React.Component {
           }}
         >
           {this.props.headers.map((item, index) => (
-            <div style={{ width: this.props.colFlex[index] }}>
-              <span key={index} style={{ margin: 8 }}>
+            <div key={index} style={{ width: this.props.colFlex[index] }}>
+              <span style={{ margin: 8 }}>
                 {item.value}
               </span>
             </div>
@@ -33,7 +43,7 @@ export class UITable extends React.Component {
 
         <div style={{ overflow: "auto", height: 500 }}>
           {this.props.data.map((item, index) => (
-            <div
+            <div key={index}
               className="item-table cursor "
               style={{ borderBottom: "1px solid #BBD3D7" }}
             >
@@ -45,5 +55,31 @@ export class UITable extends React.Component {
         </div>
       </div>
     );
+  }
+}
+
+export class UIModal extends React.Component {
+
+  state = {
+    isVisible: false
+  }
+
+  toggle() {
+    this.setState({ isVisibleß: !this.state.isVisible })
+  }
+
+  render() {
+    return <div  >
+      <div style={{ height: 40 }} className='row h-a-between a-center'  >
+
+        <span style={{ fontSize: 20 }}>{this.props.title}</span>
+        <Button onClick={() => this.toggle()} >X</Button>
+      </div>
+
+      <div>
+        {this.props.children}
+
+      </div>
+    </div>
   }
 }

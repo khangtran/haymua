@@ -15,6 +15,7 @@ const img_url =
 
 export default class LoginPage extends React.Component {
   componentDidMount() {
+    
   }
 
   render() {

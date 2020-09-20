@@ -12,23 +12,38 @@ import {
 import { UITable } from "./shared";
 
 export class AdminLoginPage extends React.Component {
-  componentDidMount() {}
+  componentDidMount() {
+
+  }
+
+  onLogin() {
+    let path = this.props.location.pathname
+    if (path === '/login') {
+      this.props.history.push("/home")
+    } else if (path === '/admin/login') {
+      this.props.history.push("/admin", { isSeller: false })
+    }
+    else {
+      this.props.history.push("/seller", { isSeller: true })
+    }
+  }
+
 
   render() {
     return (
       <div style={{ backgroundColor: "lightgray", height: "100%" }}>
-        <div style={{ position: "absolute", top: "35%", left: "12%" }}>
+        <div style={{ position: "absolute", top: "30%", left: "12%" }}>
           <span style={{ fontSize: 40 }}>Haymua</span>
           <span style={{ fontSize: 25 }}>Quản trị nội dung</span>
           <span style={{ fontSize: 16, color: "gray" }}>
-            Trang dành cho quản trị viên và đối tác liên kết.
+            Trang dành cho quản trị viên và các đối tác liên kết.
           </span>
         </div>
 
         <Card
           style={{
             position: "absolute",
-            top: "35%",
+            top: "20%",
             right: "12%",
             width: 375,
             alignSelf: "center",
@@ -36,7 +51,7 @@ export class AdminLoginPage extends React.Component {
             backgroundColor: "white"
           }}
         >
-          <CardHeader title="Tài khoản" />
+          <CardHeader title="BẢO MẬT" />
           <CardContent>
             <TextField variant="outlined" label="Tên người dùng" size="small" />
             <div style={{ height: 10 }} />
@@ -54,26 +69,11 @@ export class AdminLoginPage extends React.Component {
                 size="large"
                 variant="contained"
                 color="primary"
-                onClick={() => this.props.history.push("/home")}
+                onClick={() => this.onLogin()}
               >
                 ĐĂNG NHẬP
               </Button>
 
-              <div className="cursor" style={{ padding: 8 }}>
-                <span
-                  style={{ color: "blue", textAlign: "center", fontSize: 16 }}
-                >
-                  Quên mật khẩu
-                </span>
-              </div>
-
-              <Button
-                style={{ width: "auto", marginTop: 10, color: "black" }}
-                variant="outlined"
-                onClick={() => this.props.history.push("/signup")}
-              >
-                ĐĂNG KÝ
-              </Button>
             </div>
           </CardContent>
         </Card>
@@ -270,6 +270,25 @@ const data_test = [
 const colFlex = [100, 125, 300, 100, 200, 100, 100];
 
 export class AdminPage extends React.Component {
+
+
+  state = {
+    menuList: [],
+    isSeller: false
+  }
+
+  componentDidMount() {
+    console.log('>> isSeller', this.props.location.state)
+
+    let { isSeller } = this.props.location.state
+    if (isSeller) {
+      let list = [menuList[0], menuList[1]]
+      this.setState({ menuList: list })
+    }
+    else
+      this.setState({ menuList: menuList })
+  }
+
   render() {
     return (
       <div style={{ flex: 1, overflow: "hidden" }}>
@@ -281,14 +300,14 @@ export class AdminPage extends React.Component {
 
           <span style={{ fontSize: 20, marginLeft: 8 }}>Quản trị nội dung</span>
 
-          <span style={{ fontSize: 16, marginRight: 8 }}>Đăng xuất</span>
+          <span style={{ fontSize: 16, marginRight: 8 }} onClick={() => this.props.history.goBack()}>Đăng xuất</span>
         </div>
 
         <div className="row" style={{ flex: 1 }}>
           <div style={{ flex: 0.15, borderRight: "1px solid lighgray" }}>
-            {menuList.map((item, index) => (
-              <div className="menu-item">
-                <span key={index} style={{ margin: 8, fontSize: 17 }}>
+            {this.state.menuList.map((item, index) => (
+              <div key={index} className="menu-item cursor">
+                <span style={{ margin: 8, fontSize: 17 }}>
                   {item}
                 </span>
               </div>
@@ -313,8 +332,8 @@ export class AdminPage extends React.Component {
               data={data_test}
               renderItems={(item, index) =>
                 header_mapping.map((prop, index) => (
-                  <div style={{ width: colFlex[index] }}>
-                    <span key={index} style={{ margin: 8 }}>
+                  <div key={index} style={{ width: colFlex[index] }}>
+                    <span style={{ margin: 8 }}>
                       {item[`${prop.key}`]}
                     </span>
                   </div>
