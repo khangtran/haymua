@@ -33,6 +33,35 @@ button{
   height: 30px
 }
 
+.modal{
+  position: absolute;
+  align-self: center;
+  top: 8%;
+  width: 90%;
+  background-color: white;
+}
+
+.modal-title{
+  height: 40px;
+  border-bottom: 1px solid rgb(211, 211, 211);
+  background-color: rgb(250, 250, 250);
+}
+
+.modal-content{
+  margin: 12px;
+}
+
+.modal-action{
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-end;
+  margin: 8px;
+}
+
+.form-control{
+  margin-bottom: 8px;
+}
+
 .box{
   border: 1px solid lightgray;
 }
@@ -56,6 +85,11 @@ button{
 
 .cursor{
   cursor: pointer;
+}
+
+.shadow{
+  box-shadow: rgba(0, 0, 0, 0.1) 2px 0px 2px;
+  z-index: 1
 }
 
 .menu-item{

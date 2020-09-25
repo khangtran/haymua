@@ -4,6 +4,7 @@ import { Carousel } from "react-responsive-carousel";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 import CartInstance from "./cart";
 import { Database } from "../services/db";
+import Services from "../services/services";
 
 const url_img_slide = [
   "https://salt.tikicdn.com/cache/w876/ts/banner/87/47/95/a7b8d79381c63f0260981967f2dd4f90.png",
@@ -110,6 +111,18 @@ class HeaderHome extends React.Component {
     };
   }
 
+  onLogin() {
+    let isAuthen = this.props.isAuthen
+
+    if (!isAuthen) this.props.history.push('/login')
+  }
+
+  onKeyDown(e) {
+    if (e.key === 'Enter') {
+      this.props.history.push(`timkiem?q=${this.input_search.value}`)
+    }
+  }
+
   render() {
     return (
       <div style={{ backgroundColor: "deepskyblue" }}>
@@ -121,22 +134,22 @@ class HeaderHome extends React.Component {
             Logo
           </div>
 
-          <input
+          <input ref={c => this.input_search = c}
             style={{ borderRadius: 2, fontSize: 14, width: "55%" }}
             placeholder="Tìm kiếm sản phẩm"
+            onKeyDown={e => this.onKeyDown(e)}
           />
 
           <Button
             variant="outlined"
-            color="white"
             style={{ color: "white" }}
             onClick={() => this.props.history.push("/cart")}
           >
             Giỏ hàng {this.state.cartCount}
           </Button>
 
-          <Button variant="outlined" color="white" style={{ color: "white" }}>
-            Tài khoản
+          <Button variant="outlined" style={{ color: "white" }} onClick={() => this.onLogin()} >
+            Đăng nhập
           </Button>
         </div>
       </div>
@@ -145,12 +158,29 @@ class HeaderHome extends React.Component {
 }
 
 export default class HomePage extends React.Component {
-  componentDidMount() { }
+
+  state = {
+    data: [],
+    isLoading: true
+  }
+
+  componentDidMount() {
+    this.loadData()
+  }
+
+  async loadData() {
+
+    let result = await Services.get_product()
+    if (result.error === 0)
+      this.setState({ data: result.data, isLoading: false })
+
+    console.log('>> load data', this.state.data)
+  }
 
   render() {
     return (
       <div style={{ backgroundColor: "rgb(239, 239, 239)" }}>
-        <BannerHome onClick={() => this.props.history.push('/seller/login')} />
+        <BannerHome onClick={() => this.props.history.push('/seller-login')} />
         <HeaderHome history={this.props.history} />
 
         <div style={{ margin: "20px 30px 20px 30px" }}>
@@ -165,7 +195,7 @@ export default class HomePage extends React.Component {
           >
             <div style={{ width: "20%" }}>
               {Database.category.map((item, index) => (
-                <div className="menu-item" key={`dm${index}`}>
+                <div className="menu-item cursor" key={`dm${index}`}>
                   <span style={{ fontSize: 16, margin: 8 }}>{item.name}</span>
                 </div>
               ))}
@@ -182,11 +212,18 @@ export default class HomePage extends React.Component {
             </div>
           </div>
 
-          <div style={{ margin: "10px 0" }}>
-            {Database.homepage.map((item, index) => (
-              <ItemHome key={index} data={item} history={this.props.history} />
-            ))}
-          </div>
+          {
+            this.state.isLoading &&
+            <div style={{ backgroundColor: 'lightgray' }} >
+              <span style={{ margin: 10, }}>Đang tải dữ liệu</span>
+            </div>
+            ||
+            <div style={{ margin: "10px 0" }}>
+              {Database.homepage.map((item, index) => (
+                <ItemHome key={index} data={item} history={this.props.history} />
+              ))}
+            </div>
+          }
         </div>
 
         <div

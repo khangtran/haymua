@@ -8,18 +8,22 @@ import RegisterPage from "./page/register";
 import ProfilePage from "./page/profile";
 import DetailPage from "./page/detail";
 import PaymentPage from "./page/payment";
+import SearchPage from "./page/search";
+
 import { AdminLoginPage, AdminPage } from "./page/admin";
 
 // server 103.153.73.118
 export default function App() {
   return (
     <Router>
-      <Route path="/home" component={HomePage} />
-      <Route exact path="/" component={LoginPage} />
+      <Route path="/" exact component={HomePage} />
+      <Route exact path="/login" component={LoginPage} />
       <Route exact path="/signup" component={RegisterPage} />
       <Route path="/profile" component={ProfilePage} />
       <Route path="/detail/:id?" component={DetailPage} />
       <Route path="/cart" component={PaymentPage} />
+
+      <Route path="/timkiem/:q?" component={SearchPage} />
 
       <Route path="/admin/login" component={AdminLoginPage} />
       <Route path="/admin" component={AdminPage} />

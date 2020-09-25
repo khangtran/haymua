@@ -10,11 +10,12 @@ import {
 } from "@material-ui/core";
 
 
-class UIText extends React.Component {
+export class UIText extends React.Component {
+
   render() {
-    return <div>
-      <span>{this.props.label}</span>
-      <input {...this.props} />
+    return <div className={this.props.className} >
+      <span style={{ color: 'gray', marginBottom: 2 }}>{this.props.label}</span>
+      <input ref={c => this.input = c} disabled={this.props.disabled} />
     </div>
   }
 }
@@ -42,16 +43,24 @@ export class UITable extends React.Component {
         </div>
 
         <div style={{ overflow: "auto", height: 500 }}>
-          {this.props.data.map((item, index) => (
-            <div key={index}
-              className="item-table cursor "
-              style={{ borderBottom: "1px solid #BBD3D7" }}
-            >
-              <div key={index} className="row h-a-between ">
-                {this.props.renderItems(item, index)}
-              </div>
+
+          {
+            this.props.data === [] &&
+            <div>
+              <span>Không có dữ liệu</span>
             </div>
-          ))}
+            ||
+            this.props.data.map((item, index) => (
+              <div key={index}
+                className="item-table cursor "
+                style={{ borderBottom: "1px solid #BBD3D7" }}
+                onClick={() => this.props.onItemClick && this.props.onItemClick(item, index)}
+              >
+                <div key={index} className="row h-a-between ">
+                  {this.props.renderItems(item, index)}
+                </div>
+              </div>
+            ))}
         </div>
       </div>
     );
@@ -65,20 +74,26 @@ export class UIModal extends React.Component {
   }
 
   toggle() {
-    this.setState({ isVisibleß: !this.state.isVisible })
+    this.setState({ isVisible: !this.state.isVisible })
   }
 
   render() {
-    return <div  >
-      <div style={{ height: 40 }} className='row h-a-between a-center'  >
+    return <div className='modal box' style={{ width: 500, display: this.state.isVisible ? 'flex' : 'none' }} >
+      <div className='modal-title' style={{ justifyContent: "center" }}>
+        <div className='row h-a-between a-center' style={{ margin: '0 12px' }} >
 
-        <span style={{ fontSize: 20 }}>{this.props.title}</span>
-        <Button onClick={() => this.toggle()} >X</Button>
+          <span style={{ fontSize: 20 }}>{this.props.title}</span>
+          <Button onClick={() => this.toggle()} >X</Button>
+        </div>
       </div>
 
-      <div>
-        {this.props.children}
 
+      <div className='modal-content' >
+        {this.props.child}
+      </div>
+
+      <div className='modal-action'>
+        {this.props.actions}
       </div>
     </div>
   }
