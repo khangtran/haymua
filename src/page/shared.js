@@ -98,3 +98,95 @@ export class UIModal extends React.Component {
     </div>
   }
 }
+
+
+export class UITab extends React.Component {
+
+  state = {
+    tabIndex: 0
+  }
+
+  onIndexChange(index) {
+    this.setState({ tabIndex: index })
+  }
+
+  render() {
+    return <div style={{ flex: 1 }}>
+      <div className="row" style={{ flex: 1 }}>
+        <div style={{ flex: 0.175, borderRight: "1px solid lighgray" }}>
+          <UIGroupToggle items={this.props.tabs} onIndexChange={index => this.onIndexChange(index)} />
+
+        </div>
+
+        <div style={{ flex: "0.85", backgroundColor: "#F3F3F3" }}>
+
+          {
+            this.props.tabs[this.state.tabIndex].component
+          }
+
+        </div>
+      </div>
+
+    </div>
+  }
+}
+
+export class UIButtonToggle extends React.PureComponent {
+
+  backgroundColor = 'rgb(0, 102, 255)'
+
+  state = {
+    isToggle: false
+  }
+
+  toggle() {
+    this.setState({ isToggle: !this.state.isToggle })
+  }
+
+  onClick() {
+    this.props.onClick && this.props.onClick()
+    this.toggle()
+  }
+
+  render() {
+
+    let { isToggle } = this.state
+    let css_toggle = { backgroundColor: this.backgroundColor, color: 'white' }
+    let css = { backgroundColor: 'transparent', color: 'black' }
+    let background = isToggle ? css_toggle : css
+
+    console.log('>> ontoggle', background)
+
+    return <div className={this.props.className} style={{ fontSize: 16, ...background }} onClick={() => this.onClick()}>
+
+      <span style={{ margin: '12px 8px' }} > {this.props.title}</span>
+    </div>
+  }
+}
+
+export class UIGroupToggle extends React.PureComponent {
+
+  lastToggle = 0
+
+  componentDidMount() {
+    let defaultIndex = this.props.defaultIndex || 0
+    this[`ui-toggle-${defaultIndex}`].toggle()
+  }
+
+  onIndexChange(index) {
+    if (this.lastToggle === index) return
+
+    this[`ui-toggle-${this.lastToggle}`].toggle()
+    this.lastToggle = index
+
+    this.props.onIndexChange && this.props.onIndexChange(index)
+  }
+
+  render() {
+    return <React.Fragment>
+      {this.props.items.map((item, index) => (
+        <UIButtonToggle ref={c => this[`ui-toggle-${index}`] = c} className='menu-item cursor' key={index} title={item.header} onClick={() => this.onIndexChange(index)} />
+      ))}
+    </React.Fragment>
+  }
+}

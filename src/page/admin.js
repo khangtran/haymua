@@ -9,9 +9,11 @@ import {
   TextField
 } from "@material-ui/core";
 
-import { UITable } from "./shared";
+import { UITab, UITable } from "./shared";
 import PopEditProduct from "./admin/PopEditProduct";
 import Services from "../services/services";
+import { DashboardChild } from "./admin/adminChild/dashboardChild";
+import ProductChild from "./admin/adminChild/productChild";
 
 export class AdminLoginPage extends React.Component {
 
@@ -86,30 +88,23 @@ export class AdminLoginPage extends React.Component {
 }
 
 const menuList = [
-  "Sản phẩm",
-  "Danh mục",
-  "Đơn hàng",
-  "Người dùng",
-  "Quảng cáo",
-  "Báo cáo",
-  "Đối tác liên kết"
-];
+  { header: 'Tổng quan', component: <DashboardChild /> },
 
-const header_mapping = [
-  { key: "id", value: "Mã ID" },
-  { key: "providerID", value: "Mã người đăng" },
-  { key: "name", value: "Tên sản phẩm" },
-  { key: "type", value: "Loại" },
-  { key: "intro", value: "Mô tả" },
-  { key: "photos", value: "Hình ảnh" },
-  { key: "price", value: "Đơn giá" },
-  { key: "status", value: "Trạng thái" },
-  { key: "isVisible", value: "Hiển thị" }
+  { header: "Sản phẩm", component: <ProductChild /> },
+  { header: "Danh mục", component: null },
+  { header: "Đơn hàng", component: null },
+
+  { header: "Trang chủ", component: null },
+
+  { header: "Quảng cáo", component: null },
+  { header: "Báo cáo", component: null },
+
+  { header: "Đối tác liên kết", component: null },
+
 ];
-const colFlex = [100, 125, 200, 100, 200, 100, 100, 100, 100];
 
 // https://salt.tikicdn.com/cache/280x280/ts/product/56/99/6b/c146634c481e39b753693a04c4158284.jpg
-//https://salt.tikicdn.com/cache/w390/ts/product/65/a8/bb/8676c0e78e1dc75670daf8c89f2cc8d3.png
+// https://salt.tikicdn.com/cache/w390/ts/product/65/a8/bb/8676c0e78e1dc75670daf8c89f2cc8d3.png
 
 
 export class AdminPage extends React.Component {
@@ -123,25 +118,19 @@ export class AdminPage extends React.Component {
 
   componentDidMount() {
 
-    this.loadData()
+    console.log('>> seller', this.props.location)
+    if (this.props.location.state === undefined) {
+      this.setState({ menuList: menuList })
+      return
+    }
 
-
-    let { isSeller } = this.props.location.state
+    let isSeller = this.props.location.state.isSeller
     if (isSeller) {
-      let list = [menuList[0], menuList[2], menuList[5]]
+      let list = [menuList[0], menuList[1], menuList[2], menuList[6], menuList[7]]
       this.setState({ menuList: list, isSeller: true })
     }
-    else
-      this.setState({ menuList: menuList })
-  }
 
-  async loadData() {
-    let result = await Services.get_product()
-    if (result.error === 0)
-      this.setState({ data: result.data })
-  }
-
-  onClick() {
+    //this.loadData()
 
   }
 
@@ -159,78 +148,7 @@ export class AdminPage extends React.Component {
           <span className='cursor' style={{ fontSize: 16, marginRight: 8 }} onClick={() => this.props.history.goBack()}>Đăng xuất</span>
         </div>
 
-        <div className="row" style={{ flex: 1 }}>
-          <div style={{ flex: 0.15, borderRight: "1px solid lighgray" }}>
-            {this.state.menuList.map((item, index) => (
-              <div key={index} className="menu-item cursor" onClick={() => null}>
-                <span style={{ margin: 8, fontSize: 17 }}>
-                  {item}
-                </span>
-              </div>
-            ))}
-          </div>
-
-          <div style={{ flex: "0.85", backgroundColor: "#F3F3F3" }}>
-            <div style={{ margin: "8px " }}>
-              <div className="row h-a-between a-center">
-                <Button variant="outlined" onClick={() => this.popEditProduct.toggle()}>Thêm mới</Button>
-
-                <div style={{ width: 300 }}>
-                  <input placeholder="Tìm kiếm nhập mã id, tên" />
-                </div>
-              </div>
-            </div>
-
-
-            <UITable
-              colFlex={colFlex}
-              headers={header_mapping}
-              data={this.state.data}
-              renderItems={(item, index) =>
-                header_mapping.map((prop, index) => (
-                  <div key={index} style={{ width: colFlex[index] }}>
-                    <div style={{
-                      margin: 8,
-                      whiteSpace: 'nowrap',
-                      textOverflow: 'ellipsis',
-                      overflow: 'hidden',
-                    }}>
-                      {item[`${prop.key}`]}
-                    </div>
-                  </div>
-                ))
-              }
-              onItemClick={(item, index) => {
-                this.popEditProduct.toggle()
-                  .setData(item)
-                // this.popEditProduct.setData(item)
-              }}
-            />
-
-            <div style={{ margin: '0 8px' }}>
-              <div className='row h-a-between' >
-
-                <div className='row a-center'>
-                  <span style={{ marginRight: 5 }}>Hiển thị</span>
-                  <input style={{ width: 50 }} defaultValue={20} placeholder='Số dòng được hiển thị' />
-                </div>
-
-                <div className='row a-center'>
-                  <input defaultValue={1} style={{ width: 50 }} />
-                  <span>/10</span>
-                </div>
-
-                <div className='row'>
-                  <Button>Trước</Button>
-                  <Button>Sau</Button>
-                </div>
-              </div>
-            </div>
-
-          </div>
-        </div>
-
-        <PopEditProduct ref={c => this.popEditProduct = c} />
+        <UITab tabs={menuList} />
 
       </div>
     );
